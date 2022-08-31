@@ -1,6 +1,6 @@
 const express = require("express");
+const rateLimit = require("express-rate-limit");
 const cors = require("cors");
-const path = require("path");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
@@ -8,11 +8,17 @@ const PORT = process.env.PORT || 3001;
 
 const app = express();
 
+const limiter = rateLimit({
+  windowMs: 30000,
+  max: 1
+});
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
+app.use(limiter);
 
-let transporter = nodemailer.createTransport({
+const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     type: "OAuth2",
@@ -31,7 +37,7 @@ transporter.verify((err, success) => {
 });
 
 app.post(`/api/send/`, (req, res) => {
-  let mailOptions = {
+  const mailOptions = {
     from: `${req.body.email}`,
     to: process.env.EMAIL,
     subject: `Message from: ${req.body.name}`,
