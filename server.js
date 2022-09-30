@@ -21,12 +21,8 @@ app.use(limiter);
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    type: "OAuth2",
     user: process.env.USER,
-    pass: process.env.PASS,
-    clientId: process.env.OAUTH_CLIENTID,
-    clientSecret: process.env.OAUTH_CLIENT_SECRET,
-    refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+    pass: process.env.PASS
   },
 });
 
@@ -48,6 +44,7 @@ Email Address: ${req.body.email}`,
 
   transporter.sendMail(mailOptions, (err, data) => {
     if (err) {
+      console.log("Error");
       res.json({
         status: "fail",
         message: err,
