@@ -10,7 +10,7 @@ const app = express();
 
 const limiter = rateLimit({
   windowMs: 30000,
-  max: 1
+  max: 1,
 });
 
 app.use(express.urlencoded({ extended: false }));
@@ -22,7 +22,7 @@ const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: process.env.USER,
-    pass: process.env.PASS
+    pass: process.env.PASS,
   },
 });
 
@@ -59,9 +59,9 @@ Email Address: ${req.body.email}`,
   });
 });
 
-app.get("/api/get/", (res) => {
-  res.json({
-    cron: "success!"
+app.get("/api/get/cron", (res) => {
+  return res.json({
+    cron: "success!",
   });
 });
 
