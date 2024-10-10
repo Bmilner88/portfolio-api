@@ -32,7 +32,7 @@ transporter.verify((err, success) => {
     : console.log(`Server is ready to take messages: ${success}`);
 });
 
-app.post(`/api/send/`, (req, res) => {
+app.post("/api/send/", (req, res) => {
   const mailOptions = {
     from: `${req.body.email}`,
     to: process.env.EMAIL,
@@ -56,6 +56,12 @@ Email Address: ${req.body.email}`,
         data: data,
       });
     }
+  });
+});
+
+app.get("/api/get/", (res) => {
+  res.json({
+    cron: "success!"
   });
 });
 
